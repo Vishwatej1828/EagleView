@@ -2,9 +2,10 @@ import cv2 as cv
 import numpy as np
 import os
 from glob import glob
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 input_dir = 'input_data'
-output_dir = 'input_data\__MACOSX'
+output_dir = 'output'
 
 os.makedirs(output_dir, exist_ok=True)
 
@@ -22,7 +23,11 @@ def applyMask(file_path):
     No_of_Max_Pixels_in_Image = np.sum(mask == 255)
 
     # Save the mask
-    output_path = os.path.join(output_dir, "._" + os.path.basename(file_path))
+    imageName = os.path.basename(file_path)
+    maskName = os.path.basename(file_path).split(".")[0] + "_mask." + os.path.basename(file_path).split(".")[1]
+    output_path = os.path.join(output_dir, maskName)
+    
+    # write out the masked image
     cv.imwrite(output_path, mask)
 
     # return the max_pixel count of the particular image
@@ -36,8 +41,12 @@ def main():
     total_files = jpg_files + png_files
     total_max_pixel_count = 0
 
-    for file_path in total_files:
-        total_max_pixel_count += applyMask(file_path)
+    with ThreadPoolExecutor() as executor:
+        futures = [executor.submit(applyMask, file_path) for file_path in total_files]
+        
+        for future in as_completed(futures):
+            # add max pixel count of each image
+            total_max_pixel_count += future.result()
 
     # print total number of max pixels in all images
     print(f"Total number of max pixels in all images: {total_max_pixel_count}")
