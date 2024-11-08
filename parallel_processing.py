@@ -5,7 +5,7 @@ from glob import glob
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 input_dir = 'input_data'
-output_dir = 'output'
+output_dir = 'output_data'
 
 os.makedirs(output_dir, exist_ok=True)
 
@@ -34,11 +34,15 @@ def applyMask(file_path):
     return No_of_Max_Pixels_in_Image
 
 def main():
-    # Get list of all .jpg & .png files in the input directory
-    jpg_files = glob(os.path.join(input_dir, "*.jpg"))
-    png_files = glob(os.path.join(input_dir, "*.png"))
+    # Define the list of allowed image formats for masking
+    image_formats = ['.jpg', '.png', '.jpeg']
 
-    total_files = jpg_files + png_files
+    # Get list of all files in the input directory which follow the image formats mentioned
+    total_files = [
+        file for file in glob(os.path.join(input_dir, "*"))
+        if os.path.splitext(file)[1].lower() in image_formats
+    ]
+
     total_max_pixel_count = 0
 
     with ThreadPoolExecutor() as executor:

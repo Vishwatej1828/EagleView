@@ -1,0 +1,8 @@
+# Ignore virtual environment folder
+env/
+
+# Ignore output_data folder
+output_data/
+
+# Ignore Python virtual environment settings
+.venv/

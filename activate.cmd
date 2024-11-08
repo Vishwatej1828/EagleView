@@ -1,6 +1,6 @@
 @echo off
 :: check if virtual environment folder exists
-if not exist "\env" (
+if not exist "env\" (
     echo Creating virtual environment...
     python -m venv env
 ) else (
@@ -8,9 +8,9 @@ if not exist "\env" (
 )
 
 :: Activate the virtual environment
-call \env\Scripts\activate
+call env\Scripts\activate
 
-:: check for the requirements file and install the dependencies
+:: check for the requirements file and install dependencies
 if exist requirements.txt (
     echo Installing dependencies...
     python -m pip install --upgrade pip
@@ -19,5 +19,5 @@ if exist requirements.txt (
     echo requirements.txt not found. Please add it and re-run the script
 )
 
-echo Setup completed. environment activated and dependencies installed
+echo Setup completed. Virtual environment activated and dependencies installed
 pause
