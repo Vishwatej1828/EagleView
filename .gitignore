@@ -1,5 +1,5 @@
 # Ignore virtual environment folder
-env/
+img_processing_env/
 
 # Ignore output_data folder
 output_data/

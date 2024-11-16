@@ -1,14 +1,14 @@
 @echo off
 :: check if virtual environment folder exists
-if not exist "env\" (
+if not exist "img_processing_env\" (
     echo Creating virtual environment...
-    python -m venv env
+    python -m venv img_processing_env
 ) else (
     echo virtual environment is already exists.
 )
 
 :: Activate the virtual environment
-call env\Scripts\activate
+call img_processing_env\Scripts\activate
 
 :: check for the requirements file and install dependencies
 if exist requirements.txt (

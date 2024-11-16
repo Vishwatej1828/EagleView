@@ -23,10 +23,10 @@ def applyMask(file_path):
     No_of_Max_Pixels_in_Image = np.sum(mask == 255)
 
     # Save the mask
-    imageName = os.path.basename(file_path)
-    maskName = os.path.basename(file_path).split(".")[0] + "_mask." + os.path.basename(file_path).split(".")[1]
-    output_path = os.path.join(output_dir, maskName)
-    
+    image_name = os.path.basename(file_path)
+    mask_name = image_name.split(".")[0] + "_mask." + image_name.split(".")[1]
+    output_path = os.path.join(output_dir, mask_name)
+
     # write out the masked image
     cv.imwrite(output_path, mask)
 
@@ -47,7 +47,7 @@ def main():
 
     with ThreadPoolExecutor() as executor:
         futures = [executor.submit(applyMask, file_path) for file_path in total_files]
-        
+
         for future in as_completed(futures):
             # add max pixel count of each image
             total_max_pixel_count += future.result()
